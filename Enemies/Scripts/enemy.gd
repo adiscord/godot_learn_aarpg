@@ -1,35 +1,33 @@
-class_name Player extends CharacterBody2D
+class_name Enemy extends CharacterBody2D
+
+signal direction_changed(direction: Vector2)
+signal enemy_damaged()
 
 const DIRECTIONS_4: Array[Vector2] = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP]
 
-@onready var player_state_machine: PlayerStateMachine = $PlayerStateMachine
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var sprite_2d: Sprite2D = $Sprite2D
- 
+@export var hp: int = 3
+
+var player: Player
 var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
 
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var slime_sprite_2d: Sprite2D = $SlimeSprite2D
+@onready var enemy_state_machine: EnemyStateMachine = $EnemyStateMachine
+
 func _ready() -> void:
-	PlayerManager.player = self
-	player_state_machine.initialize(self)
-	pass 
+	enemy_state_machine.initialize(self)
+	player = PlayerManager.player
 
-func _process(_delta: float) -> void:	
-	direction = Vector2(
-		Input.get_axis("move_left", "move_right"),
-		Input.get_axis("move_up", "move_down")
-	).normalized()
-
-	
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
-
-
-
-func set_direction() -> bool:
+	
+func set_direction(requested_direction: Vector2) -> bool:
 	if direction == Vector2.ZERO:
 		return false
-		
+	
+	direction = requested_direction;
+	
 	var direction_id: int = int(round(((direction + cardinal_direction * 0.1).angle() / TAU * DIRECTIONS_4.size())))
 
 	var new_direction = DIRECTIONS_4[direction_id]
@@ -39,10 +37,10 @@ func set_direction() -> bool:
 	
 	cardinal_direction = new_direction
 	
-	sprite_2d.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
+	slime_sprite_2d.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	
 	return true
-	
+
 func update_animation(state: String) -> void:	
 	animation_player.play(state + "_" + get_amimation_direction())
 	
@@ -53,4 +51,3 @@ func get_amimation_direction() -> String:
 		return 'up'
 	else:
 		return 'side'
-	

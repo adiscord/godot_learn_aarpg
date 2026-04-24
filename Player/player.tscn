@@ -5,17 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://cee2ltmkj8swx" path="res://Player/Sprites/PlayerSprite02.png" id="2_k53q1"]
 [ext_resource type="Script" uid="uid://btpd7ndypbfqb" path="res://Player/Scripts/player_state_machine.gd" id="3_btcbx"]
 [ext_resource type="Texture2D" uid="uid://0ubew8h45od7" path="res://Player/Sprites/AttackSprite01.png" id="3_vtle1"]
-[ext_resource type="Script" uid="uid://d0xt7uftunpvv" path="res://Player/Scripts/state_idle.gd" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://d0xt7uftunpvv" path="res://Player/Scripts/States/state_idle.gd" id="4_gwnis"]
 [ext_resource type="AudioStream" uid="uid://ch08vlqyq446d" path="res://Player/Audio/SwordSwoosh.wav" id="5_00tjw"]
-[ext_resource type="Script" uid="uid://bata3le4tigs" path="res://Player/Scripts/state_walk.gd" id="5_k53q1"]
-[ext_resource type="Script" uid="uid://m1vakgb1n4na" path="res://Player/Scripts/state_attack.gd" id="6_fhl08"]
-[ext_resource type="Script" uid="uid://biwlpcyvgedyd" path="res://Player/Scripts/player_interactions.gd" id="10_apopc"]
+[ext_resource type="Script" uid="uid://bata3le4tigs" path="res://Player/Scripts/States/state_walk.gd" id="5_k53q1"]
+[ext_resource type="Script" uid="uid://m1vakgb1n4na" path="res://Player/Scripts/States/state_attack.gd" id="6_fhl08"]
 [ext_resource type="PackedScene" uid="uid://ca2rg4j7j562i" path="res://CommonNodes/Hurtbox/hurtbox.tscn" id="10_x3vf3"]
+[ext_resource type="Script" uid="uid://cyx2yilc54qm" path="res://Player/Scripts/player_camera.gd" id="11_5htga"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_edjgo"]
 
 [sub_resource type="Animation" id="Animation_5htga"]
-length = 0.001
+length = 0.06666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -246,6 +246,9 @@ _data = {
 &"no_attack": SubResource("Animation_lfmf2")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
+radius = 20.0
+
 [sub_resource type="Animation" id="Animation_4ntmi"]
 length = 0.001
 tracks/0/type = "value"
@@ -259,6 +262,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 16)]
 }
 
 [sub_resource type="Animation" id="Animation_00tjw"]
@@ -277,6 +292,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [21, 23]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 16)]
+}
 
 [sub_resource type="Animation" id="Animation_x3vf3"]
 resource_name = "attack_side"
@@ -294,6 +321,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [27, 29]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(16, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_apopc"]
 resource_name = "attack_up"
@@ -310,6 +349,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [24, 26]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtbox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -16)]
 }
 
 [sub_resource type="Animation" id="Animation_btcbx"]
@@ -434,9 +485,6 @@ _data = {
 &"walk_up": SubResource("Animation_od3ui")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
-radius = 20.0
-
 [node name="Player" type="CharacterBody2D" unique_id=486034788]
 collision_mask = 16
 motion_mode = 1
@@ -447,7 +495,7 @@ script = ExtResource("1_4ntmi")
 shape = SubResource("CircleShape2D_edjgo")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1450299723]
-position = Vector2(1, -21)
+position = Vector2(0, -21)
 texture = ExtResource("2_k53q1")
 hframes = 16
 vframes = 3
@@ -466,6 +514,16 @@ show_behind_parent = true
 position = Vector2(-1, 21)
 texture = ExtResource("2_00tjw")
 
+[node name="AttackHurtbox" parent="Sprite2D" unique_id=1122232748 instance=ExtResource("10_x3vf3")]
+unique_name_in_owner = true
+position = Vector2(0, 16)
+collision_mask = 256
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackHurtbox" unique_id=1652661544]
+shape = SubResource("CircleShape2D_apopc")
+debug_color = Color(0.89977825, 0, 0.27926743, 0.41960785)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1000165272]
 libraries/ = SubResource("AnimationLibrary_gwnis")
 
@@ -482,22 +540,11 @@ script = ExtResource("5_k53q1")
 script = ExtResource("6_fhl08")
 attack_sound = ExtResource("5_00tjw")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1037524389]
+[node name="PlayerCamera" type="Camera2D" parent="." unique_id=1037524389]
+unique_name_in_owner = true
+script = ExtResource("11_5htga")
 
 [node name="Audio" type="Node2D" parent="." unique_id=300628019]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Audio" unique_id=1357840884]
 max_polyphony = 4
-
-[node name="Interations" type="Node2D" parent="." unique_id=449093774]
-script = ExtResource("10_apopc")
-
-[node name="Hurtbox" parent="Interations" unique_id=1122232748 instance=ExtResource("10_x3vf3")]
-position = Vector2(0, 15)
-rotation = 0.0015189636
-collision_mask = 256
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interations/Hurtbox" unique_id=1652661544]
-shape = SubResource("CircleShape2D_apopc")
-debug_color = Color(0.89977825, 0, 0.27926743, 0.41960785)

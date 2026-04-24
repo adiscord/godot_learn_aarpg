@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://bog2cnxrevk2i" path="res://CommonNodes/Hitbox/hitbox.tscn" id="2_djs60"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0y2q1"]
+size = Vector2(32, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_djs60"]
 size = Vector2(28, 18)
 
 [node name="Plant" type="Node2D" unique_id=2034178195]
@@ -20,6 +23,7 @@ vframes = 3
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1521393442]
+position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_0y2q1")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1370441253]
@@ -28,4 +32,4 @@ collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=544455437]
-shape = SubResource("RectangleShape2D_0y2q1")
+shape = SubResource("RectangleShape2D_djs60")

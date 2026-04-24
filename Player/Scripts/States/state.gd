@@ -8,11 +8,11 @@ func enter_state() -> void:
 func exit_state() -> void:
 	pass
 	
-func process(delta: float) -> State:
+func process(_delta: float) -> State:
 	return null
 	
-func physics_process(delta: float) -> State:
+func physics_process(_delta: float) -> State:
 	return null
 	
-func handle_input(event: InputEvent) -> State:
+func handle_input(_event: InputEvent) -> State:
 	return null

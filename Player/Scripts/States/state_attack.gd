@@ -8,7 +8,8 @@ class_name StateAttack extends State
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var attack_animation_player: AnimationPlayer = $"../../Sprite2D/AttackEffect/AnimationPlayer"
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $"../../Audio/AudioStreamPlayer2D"
-@onready var hurtbox: Hurtbox = $"../../Interations/Hurtbox"
+@onready var attack_hurtbox: Hurtbox = %AttackHurtbox
+
 
 var is_attacking: bool = false
 
@@ -21,11 +22,11 @@ func enter_state() -> void:
 	audio_stream_player_2d.pitch_scale = randf_range(0.9, 1.1)
 	
 	await get_tree().create_timer(0.1).timeout
-	hurtbox.monitoring = true
+	attack_hurtbox.monitoring = true
 	
 	await animation_player.animation_finished
 	is_attacking = false
-	hurtbox.monitoring = false
+	attack_hurtbox.monitoring = false
 	pass
 
 	
@@ -36,15 +37,15 @@ func exit_state() -> void:
 func process(delta: float) -> State:
 	player.velocity -=  player.velocity	* decelerate_speed * delta
 	
-	if not is_attacking:
+	if !is_attacking:
 		if player.direction == Vector2.ZERO:
 			return state_idle
 		else:
 			return state_walk
 	return null
 	
-func physics_process(delta: float) -> State:
+func physics_process(_delta: float) -> State:
 	return null
 	
-func handle_input(event: InputEvent) -> State:
+func handle_input(_event: InputEvent) -> State:
 	return null
