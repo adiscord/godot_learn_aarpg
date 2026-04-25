@@ -5,13 +5,17 @@ const DIRECTIONS_4: Array[Vector2] = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT,
 @onready var player_state_machine: PlayerStateMachine = $PlayerStateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
- 
+@onready var hitbox: Hitbox = %Hitbox
+
 var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
+
+@export var hp: int = 10
 
 func _ready() -> void:
 	PlayerManager.player = self
 	player_state_machine.initialize(self)
+	hitbox.damaged_signal.connect(takeDamage)
 	pass 
 
 func _process(_delta: float) -> void:	
@@ -20,10 +24,13 @@ func _process(_delta: float) -> void:
 		Input.get_axis("move_up", "move_down")
 	).normalized()
 
+func takeDamage(damage: int) -> void:
+	hp -= damage
+	if (hp <= 0):
+		queue_free()
 	
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
-
 
 
 func set_direction() -> bool:

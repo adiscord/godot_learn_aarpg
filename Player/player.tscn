@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d0xt7uftunpvv" path="res://Player/Scripts/States/state_idle.gd" id="4_gwnis"]
 [ext_resource type="AudioStream" uid="uid://ch08vlqyq446d" path="res://Player/Audio/SwordSwoosh.wav" id="5_00tjw"]
 [ext_resource type="Script" uid="uid://bata3le4tigs" path="res://Player/Scripts/States/state_walk.gd" id="5_k53q1"]
+[ext_resource type="PackedScene" uid="uid://bog2cnxrevk2i" path="res://CommonNodes/Hitbox/hitbox.tscn" id="6_5htga"]
 [ext_resource type="Script" uid="uid://m1vakgb1n4na" path="res://Player/Scripts/States/state_attack.gd" id="6_fhl08"]
 [ext_resource type="PackedScene" uid="uid://ca2rg4j7j562i" path="res://CommonNodes/Hurtbox/hurtbox.tscn" id="10_x3vf3"]
 [ext_resource type="Script" uid="uid://cyx2yilc54qm" path="res://Player/Scripts/player_camera.gd" id="11_5htga"]
@@ -248,6 +249,9 @@ _data = {
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
 radius = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p5o4e"]
+height = 44.0
 
 [sub_resource type="Animation" id="Animation_4ntmi"]
 length = 0.001
@@ -516,6 +520,7 @@ texture = ExtResource("2_00tjw")
 
 [node name="AttackHurtbox" parent="Sprite2D" unique_id=1122232748 instance=ExtResource("10_x3vf3")]
 unique_name_in_owner = true
+visible = false
 position = Vector2(0, 16)
 collision_mask = 256
 monitoring = false
@@ -523,6 +528,13 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackHurtbox" unique_id=1652661544]
 shape = SubResource("CircleShape2D_apopc")
 debug_color = Color(0.89977825, 0, 0.27926743, 0.41960785)
+
+[node name="Hitbox" parent="Sprite2D" unique_id=2112115317 instance=ExtResource("6_5htga")]
+unique_name_in_owner = true
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hitbox" unique_id=1530817794]
+shape = SubResource("CapsuleShape2D_p5o4e")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1000165272]
 libraries/ = SubResource("AnimationLibrary_gwnis")

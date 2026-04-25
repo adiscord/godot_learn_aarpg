@@ -17,7 +17,16 @@ y_sort_enabled = true
 position = Vector2(228, 121)
 
 [node name="Slime" parent="Entities" unique_id=1965391167 instance=ExtResource("4_is3ju")]
-position = Vector2(178, 95)
+position = Vector2(195, 81)
+
+[node name="Slime2" parent="Entities" unique_id=1529644706 instance=ExtResource("4_is3ju")]
+position = Vector2(157, 143)
+
+[node name="Slime3" parent="Entities" unique_id=2015269003 instance=ExtResource("4_is3ju")]
+position = Vector2(278, 147)
+
+[node name="Slime4" parent="Entities" unique_id=216543104 instance=ExtResource("4_is3ju")]
+position = Vector2(284, 187)
 
 [node name="Plant" parent="Entities" unique_id=2034178195 instance=ExtResource("3_m8u5f")]
 position = Vector2(116, 113)

@@ -68,9 +68,9 @@ sprint={
 [layer_names]
 
 2d_physics/layer_1="Player"
-2d_physics/layer_2="PlayerHurt"
+2d_physics/layer_2="PlayerHitbox"
 2d_physics/layer_5="Walls"
-2d_physics/layer_9="Enemy"
+2d_physics/layer_9="EnemyHitbox"
 
 [physics]
 
